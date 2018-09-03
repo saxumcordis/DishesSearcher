@@ -1,5 +1,3 @@
-
-
 import sys
 import re
 import urllib.request
@@ -15,7 +13,12 @@ def unique(list):
 	return result
 
 def check(ingredients):
-	return results['count'] == 0 or results['count'] >= len(ingredients)
+	if results['count'] == 0 or results['count'] >= len(ingredients):
+		for element in ingredients:
+			if element not in sys.argv:
+				return False
+		return True
+	return False 
 
 if len(sys.argv) <= 1:  #Есть ли инпут?
 	exit("Too few arguments")
@@ -38,11 +41,15 @@ for p in range(1,11): #Перебор страничек
 	if len(dishes) == 0:
 		break;
 
-	for dish in dishes:		
-		ingredients = unique(dish['ingredients'].split(','))
+	for dish in dishes: #Перебор всех блюд	
+		ingredients = unique(dish['ingredients'].split(', '))
 		
 		if check(ingredients):
 			results['count'] = len(ingredients)
+
+		if len(ingredients) < results['count']:
+			results['dishes'].clear();
+
 			results['dishes'].append(
 				{"link" : dish['href'], "ingredients" : ingredients}
 			)
