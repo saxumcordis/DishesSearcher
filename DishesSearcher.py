@@ -45,11 +45,11 @@ for p in range(1,11): #Перебор страничек
 		ingredients = unique(dish['ingredients'].split(', '))
 		
 		if check(ingredients):
+			
+
+			if len(ingredients) < results['count']:
+				results['dishes'].clear();
 			results['count'] = len(ingredients)
-
-		if len(ingredients) < results['count']:
-			results['dishes'].clear();
-
 			results['dishes'].append(
 				{"link" : dish['href'], "ingredients" : ingredients}
 			)
